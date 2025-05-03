@@ -21,7 +21,7 @@ const GradientButton = ({
 }: GradientButtonProps) => {
   
   const variantClasses = {
-    primary: "bg-gradient-primary text-white hover:shadow-[0_4px_20px_-2px_rgba(110,68,255,0.4)]",
+    primary: "bg-gradient-primary text-white hover:shadow-[0_4px_20px_-2px_rgba(15,160,206,0.4)]",
     secondary: "bg-transparent border border-white/30 hover:bg-white/10 text-white",
     destructive: "bg-gradient-to-r from-daoship-red to-red-600 text-white",
     success: "bg-gradient-to-r from-daoship-mint to-green-400 text-slate-900"

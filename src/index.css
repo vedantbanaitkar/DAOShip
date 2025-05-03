@@ -37,12 +37,12 @@
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary: 195 85% 43.5%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 195 75% 60%;
   }
 }
 
@@ -72,7 +72,7 @@
   }
 
   .glass-card {
-    @apply backdrop-blur-xl bg-white/10 border border-white/20 shadow-[0_4px_20px_-2px_rgba(110,68,255,0.2)];
+    @apply backdrop-blur-xl bg-white/10 border border-white/20 shadow-[0_4px_20px_-2px_rgba(15,160,206,0.2)];
   }
   
   .glass-card-hover {
@@ -97,6 +97,22 @@
   }
   
   .glow-border {
-    @apply border border-white/20 shadow-[0_0_15px_rgba(110,68,255,0.3)];
+    @apply border border-white/20 shadow-[0_0_15px_rgba(15,160,206,0.3)];
+  }
+  
+  .algorand-blob {
+    @apply absolute rounded-full bg-opacity-20 filter blur-3xl;
+  }
+  
+  .wavy-border {
+    @apply relative overflow-hidden;
+  }
+  
+  .wavy-border::before {
+    content: '';
+    @apply absolute inset-0 border border-white/20 rounded-lg;
+    mask: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0C0 0 20 40 50 40C80 40 100 0 130 0C160 0 180 40 200 40L200 100C200 100 180 60 150 60C120 60 100 100 70 100C40 100 20 60 0 60L0 0Z' fill='%23000'/%3E%3C/svg%3E");
+    mask-size: 100px 100px;
+    mask-repeat: repeat;
   }
 }
