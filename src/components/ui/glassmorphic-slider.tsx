@@ -2,7 +2,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-interface GlassmorphicSliderProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface GlassmorphicSliderProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   label: string;
   min: number;
   max: number;
