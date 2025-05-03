@@ -6,7 +6,7 @@ import { Settings, Vote, Shield, Wallet, Zap, Activity } from "lucide-react";
 const featuresData = [
   {
     title: "Simple Setup",
-    description: "Launch your DAO in minutes with our intuitive interface built for hackathon participants. No coding needed.",
+    description: "Launch your DAO in minutes with our intuitive interface. No coding needed.",
     icon: Settings,
     color: "bg-gradient-to-br from-daoship-purple to-blue-600",
   },
@@ -90,7 +90,7 @@ const FeaturesSection = () => {
           </div>
           
           <h2 className="text-3xl md:text-5xl font-bold mb-6 gradient-text">
-            Built for <span className="text-daoship-purple">Hackathon</span> Innovation
+            Built for <span className="text-daoship-purple">Blockchain</span> Innovation
           </h2>
           
           <p className="text-lg text-daoship-text-gray/80">

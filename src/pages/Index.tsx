@@ -5,6 +5,9 @@ import HeroSection from "@/components/hero-section";
 import FeaturesSection from "@/components/features-section";
 import HowItWorksSection from "@/components/how-it-works-section";
 import BenefitsSection from "@/components/benefits-section";
+import EcosystemSection from "@/components/ecosystem-section";
+import TestimonialsSection from "@/components/testimonials-section";
+import CtaSection from "@/components/cta-section";
 import Footer from "@/components/footer";
 
 const Index = () => {
@@ -16,6 +19,9 @@ const Index = () => {
         <FeaturesSection />
         <BenefitsSection />
         <HowItWorksSection />
+        <EcosystemSection />
+        <TestimonialsSection />
+        <CtaSection />
       </main>
       <Footer />
     </div>

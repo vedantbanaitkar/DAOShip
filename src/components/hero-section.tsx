@@ -58,7 +58,7 @@ const HeroSection = () => {
             <div className="inline-block bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6 border border-white/20">
               <span className="text-sm font-medium flex items-center">
                 <span className="h-2 w-2 rounded-full bg-daoship-mint mr-2 animate-pulse"></span>
-                Hackathon 2025 • Powered by Algorand
+                Powered by Algorand
               </span>
             </div>
             
@@ -118,7 +118,7 @@ const HeroSection = () => {
               <div className="absolute -bottom-8 -left-8 w-16 h-16 bg-daoship-mint/40 rounded-full backdrop-blur-sm animate-bounce-subtle" style={{ animationDelay: '2s' }}></div>
               
               <h2 className="text-2xl font-semibold mb-6 text-white">
-                Ready for the Hackathon?
+                Ready to Build?
               </h2>
               
               <p className="text-daoship-text-gray mb-8">
