@@ -1,26 +1,57 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Search } from "lucide-react";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import GlassmorphicCard from "@/components/ui/glassmorphic-card";
 import GradientButton from "@/components/ui/gradient-button";
-import { mockDAOs } from "@/data/mock-data";
-import { Search, Users, Check } from "lucide-react";
+import { getAllDAOs } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
+
+interface DAO {
+  _id: string;
+  name: string;
+  description: string;
+  members: any[];
+  createdAt: string;
+}
 
 const Explore = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  
-  // Filter DAOs based on search term
-  const filteredDAOs = mockDAOs.filter(
-    dao => dao.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-           dao.description.toLowerCase().includes(searchTerm.toLowerCase())
+  const [daos, setDaos] = useState<DAO[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    fetchDAOs();
+  }, []);
+
+  const fetchDAOs = async () => {
+    try {
+      const response = await getAllDAOs();
+      setDaos(response);
+    } catch (error) {
+      console.error("Error fetching DAOs:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load DAOs. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const filteredDAOs = daos.filter(
+    (dao) =>
+      dao.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      dao.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
+
   return (
     <div className="min-h-screen bg-gradient-background">
       <Navigation />
-      
+
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12">
@@ -32,14 +63,14 @@ const Explore = () => {
                 Discover and join Algorand DAOs created with DAOShip
               </p>
             </div>
-            
+
             <Link to="/create-dao">
               <GradientButton className="mt-4 md:mt-0">
                 Create DAO
               </GradientButton>
             </Link>
           </div>
-          
+
           {/* Search and Filters */}
           <div className="mb-8">
             <div className="relative">
@@ -55,53 +86,43 @@ const Explore = () => {
               />
             </div>
           </div>
-          
+
           {/* DAO Grid */}
-          {filteredDAOs.length > 0 ? (
+          {isLoading ? (
+            <div className="text-center py-10">
+              <p className="text-white">Loading DAOs...</p>
+            </div>
+          ) : filteredDAOs.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredDAOs.map(dao => (
-                <Link to={`/dao/${dao.id}`} key={dao.id}>
-                  <GlassmorphicCard className="p-6 h-full flex flex-col justify-between glass-card-hover">
-                    <div>
-                      <div className="flex justify-between items-start">
-                        <h2 className="text-xl font-semibold text-white mb-2">{dao.name}</h2>
-                        <span className="bg-white/10 text-white px-2 py-1 rounded text-xs">
-                          {dao.tokenSymbol}
-                        </span>
-                      </div>
-                      <p className="text-daoship-text-gray mb-4 line-clamp-3">{dao.description}</p>
-                    </div>
-                    
-                    <div className="border-t border-white/10 pt-4 mt-auto">
-                      <div className="flex justify-between text-sm">
-                        <div className="flex items-center text-daoship-text-gray">
-                          <Users className="h-4 w-4 mr-1" />
-                          <span>{dao.membersCount} members</span>
-                        </div>
-                        <div className="flex items-center text-daoship-text-gray">
-                          <Check className="h-4 w-4 mr-1" />
-                          <span>{dao.votingPeriod}d voting</span>
-                        </div>
-                      </div>
+              {filteredDAOs.map((dao) => (
+                <Link key={dao._id} to={`/dao/${dao._id}`}>
+                  <GlassmorphicCard className="p-6 h-full hover:scale-[1.02] transition-transform">
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      {dao.name}
+                    </h3>
+                    <p className="text-daoship-text-gray mb-4 line-clamp-2">
+                      {dao.description}
+                    </p>
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-white/70">
+                        {dao.members.length} members
+                      </span>
+                      <span className="text-white/70">
+                        Created {new Date(dao.createdAt).toLocaleDateString()}
+                      </span>
                     </div>
                   </GlassmorphicCard>
                 </Link>
               ))}
             </div>
           ) : (
-            <GlassmorphicCard className="p-10 text-center">
-              <h3 className="text-xl font-medium text-white mb-2">No DAOs Found</h3>
-              <p className="text-daoship-text-gray mb-6">We couldn't find any DAOs matching your search.</p>
-              {searchTerm && (
-                <GradientButton onClick={() => setSearchTerm("")}>
-                  Clear Search
-                </GradientButton>
-              )}
-            </GlassmorphicCard>
+            <div className="text-center py-10">
+              <p className="text-white">No DAOs found</p>
+            </div>
           )}
         </div>
       </main>
-      
+
       <Footer />
     </div>
   );
