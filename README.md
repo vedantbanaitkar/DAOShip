@@ -1,73 +1,173 @@
-# Welcome to your Lovable project
+# DAOShip
 
-## Project info
 
-**URL**: https://lovable.dev/projects/9a88ff41-483f-48ab-96c7-71c686db075b
 
-## How can I edit this code?
+## 🚀 About DAOShip
 
-There are several ways of editing your application.
+DAOShip is a decentralized platform for managing DAOs (Decentralized Autonomous Organizations) with streamlined governance, treasury management, and community engagement tools. Our mission is to make decentralized organization management accessible and efficient for communities of all sizes.
 
-**Use Lovable**
+## 🌟 Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/9a88ff41-483f-48ab-96c7-71c686db075b) and start prompting.
+- **DAO Creation & Management**: Launch and configure your DAO with customizable parameters
+- **Governance System**: Create proposals, vote, and execute decisions transparently
+- **Treasury Management**: Manage community funds with multi-signature security
+- **Member Management**: Onboard, verify, and manage community members
+- **Integration with Popular Blockchains**: Compatible with Algorand, Ethereum, and more
+- **Intuitive Dashboard**: Monitor DAO activities, treasury movements, and governance metrics
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🛠️ Tech Stack
 
-**Use your preferred IDE**
+- **Frontend**: React.js, Next.js, TypeScript, TailwindCSS
+- **Backend**: Node.js, Express, MongoDB
+- **Blockchain Integration**: Algorand SDK, Web3.js, Ethers.js
+- **Authentication**: Wallet Connect, Pera Wallet
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 📂 Repository Structure
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```
+DAOShip/
+├── public/                  # Static files
+│   └── assets/              # Images, fonts, etc.
+├── src/                     # Frontend source code
+│   ├── components/          # React components
+│   ├── pages/               # Next.js pages
+│   ├── hooks/               # Custom React hooks
+│   ├── context/             # Context API setup
+│   ├── utils/               # Utility functions
+│   ├── styles/              # Global styles
+│   └── types/               # TypeScript type definitions
+├── backend/                 # Backend code
+│   ├── controllers/         # Request handlers
+│   ├── models/              # Database models
+│   ├── routes/              # API routes
+│   ├── services/            # Business logic
+│   ├── utils/               # Utility functions
+│   ├── middlewares/         # Express middlewares
+│   └── config/              # Configuration files
+├── scripts/                 # Build and deployment scripts
+├── tests/                   # Test files
+├── .env.example             # Example environment variables
+├── package.json             # Dependencies and scripts
+└── README.md                # Project documentation
+```
 
-Follow these steps:
+## 🚀 Getting Started
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Prerequisites
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- Node.js (v16+)
+- npm or yarn
+- MongoDB
+- Algorand Node or access to PureStake API (for Algorand functionality)
+- MetaMask or other Web3 wallet (for Ethereum functionality)
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Installation
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/yourusername/DAOShip.git
+cd DAOShip
+```
+
+2. **Install dependencies**
+
+```bash
+# Install frontend dependencies
+npm install
+
+# Install backend dependencies
+cd backend
+npm install
+cd ..
+```
+
+3. **Environment setup**
+
+```bash
+# Copy example environment files
+cp .env.example .env.local
+cp backend/.env.example backend/.env
+
+# Edit the .env files with your configuration
+```
+
+4. **Start development servers**
+
+```bash
+# Start frontend development server
+npm run dev
+
+# In a separate terminal, start backend server
+cd backend
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+5. **Access the application**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Frontend: [http://localhost:3000](http://localhost:3000)  
+Backend API: [http://localhost:5000/api](http://localhost:5000/api)
 
-**Use GitHub Codespaces**
+## 🧪 Testing
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```bash
+# Run frontend tests
+npm test
 
-## What technologies are used for this project?
+# Run backend tests
+cd backend
+npm test
+```
 
-This project is built with:
+## 📦 Deployment
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Frontend Deployment
 
-## How can I deploy this project?
+```bash
+# Build the frontend
+npm run build
 
-Simply open [Lovable](https://lovable.dev/projects/9a88ff41-483f-48ab-96c7-71c686db075b) and click on Share -> Publish.
+# Start the production server
+npm start
+```
 
-## Can I connect a custom domain to my Lovable project?
+### Backend Deployment
 
-Yes, you can!
+```bash
+cd backend
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+# Build the backend
+npm run build
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+# Start the production server
+npm start
+```
+
+## 🤝 Contributing
+
+We welcome contributions to DAOShip! Please see our [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to submit pull requests, report issues, and suggest enhancements.
+
+### Development Workflow
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📬 Contact
+
+- **Project Maintainer**: [Your Name](mailto:your.email@example.com)
+- **Website**: [daoship.io](https://daoship.io)
+- **Twitter**: [@DAOShip](https://twitter.com/DAOShip)
+- **Discord**: [Join our community](https://discord.gg/daoship)
+
+## 🙏 Acknowledgements
+
+- [Algorand Foundation](https://algorand.foundation/) for their support
+- All our contributors and community members
+- Open source projects that made this possible
