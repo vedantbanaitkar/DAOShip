@@ -14,6 +14,7 @@ interface DAO {
   description: string;
   members: any[];
   createdAt: string;
+  imageUrl?: string; // Optional image URL property
 }
 
 const Explore = () => {
@@ -47,6 +48,19 @@ const Explore = () => {
       dao.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       dao.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Function to generate a placeholder gradient based on DAO name
+  const generatePlaceholderGradient = (name) => {
+    // Simple hash function to generate consistent colors based on name
+    const hash = name.split('').reduce((acc, char) => {
+      return char.charCodeAt(0) + ((acc << 5) - acc);
+    }, 0);
+    
+    const hue1 = Math.abs(hash % 360);
+    const hue2 = (hue1 + 60) % 360;
+    
+    return `linear-gradient(135deg, hsla(${hue1}, 70%, 60%, 0.8), hsla(${hue2}, 70%, 50%, 0.8))`;
+  };
 
   return (
     <div className="min-h-screen bg-gradient-background">
@@ -96,20 +110,39 @@ const Explore = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredDAOs.map((dao) => (
                 <Link key={dao._id} to={`/dao/${dao._id}`}>
-                  <GlassmorphicCard className="p-6 h-full hover:scale-[1.02] transition-transform">
-                    <h3 className="text-xl font-semibold text-white mb-2">
-                      {dao.name}
-                    </h3>
-                    <p className="text-daoship-text-gray mb-4 line-clamp-2">
-                      {dao.description}
-                    </p>
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="text-white/70">
-                        {dao.members.length} members
-                      </span>
-                      <span className="text-white/70">
-                        Created {new Date(dao.createdAt).toLocaleDateString()}
-                      </span>
+                  <GlassmorphicCard className="overflow-hidden h-full hover:scale-[1.02] transition-transform">
+                    {/* Image Area */}
+                    <div 
+                      className="h-48 w-full flex items-center justify-center" 
+                      style={{ 
+                        background: dao.imageUrl 
+                          ? `url(${dao.imageUrl}) center/cover no-repeat` 
+                          : generatePlaceholderGradient(dao.name)
+                      }}
+                    >
+                      {!dao.imageUrl && (
+                        <span className="text-3xl font-bold text-white/90">
+                          {dao.name.charAt(0)}
+                        </span>
+                      )}
+                    </div>
+                    
+                    {/* Content Area */}
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-white mb-2">
+                        {dao.name}
+                      </h3>
+                      <p className="text-daoship-text-gray mb-4 line-clamp-2">
+                        {dao.description}
+                      </p>
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-white/70">
+                          {dao.members.length} members
+                        </span>
+                        <span className="text-white/70">
+                          Created {new Date(dao.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
                     </div>
                   </GlassmorphicCard>
                 </Link>
