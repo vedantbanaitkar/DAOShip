@@ -66,7 +66,7 @@ DAOShip/
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/DAOShip.git
+git clone https://github.com/vedantbanaitkar/DAOShip.git
 cd DAOShip
 ```
 
