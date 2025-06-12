@@ -59,7 +59,7 @@ const CreateProposal = () => {
     fetchDAO();
   }, [id, toast]);
 
-  // Handle text input changes
+  // Handle changes into text input here
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -93,12 +93,10 @@ const handleSubmit = async (e: React.FormEvent) => {
   try {
     console.log("Creating proposal for DAO:", id);
 
-    // Try to get the real creator ID from the DAO
-    // If it's not available, use a valid placeholder ObjectId
+    // Try to get the real creator ID from the DAO If it's not available, use a valid placeholder ObjectId
     const currentUserId = dao.creator?._id || dao.creator;
 
-    // Use this valid ObjectId as a placeholder if needed
-    // This MUST be a valid 24-character hex string that can be cast to ObjectId
+    // Use this valid ObjectId as a placeholder if needed This MUST be a valid 24-character hex string that can be cast to ObjectId
     const placeholderUserId = "507f1f77bcf86cd799439011";
 
     // Ensure we have a valid ObjectId-compatible string
@@ -126,7 +124,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     // Use the api.ts helper function
     const createdProposal = await createProposal(id, proposalData);
 
-    console.log("Proposal created successfully:", createdProposal);
+    console.log("Proposal has been created successfully!!", createdProposal);
 
     toast({
       title: "Success",
