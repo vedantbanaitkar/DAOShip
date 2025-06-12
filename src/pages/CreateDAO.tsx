@@ -10,6 +10,7 @@ import GradientButton from "@/components/ui/gradient-button";
 import { useToast } from "@/hooks/use-toast";
 import { Upload } from "lucide-react";
 import axios from "axios"; // Make sure axios is installed
+import { useWallet } from "@/hooks/use-wallet";
 
 const steps = [
   "Basic Information",
@@ -21,8 +22,9 @@ const steps = [
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 const CreateDAO = () => {
-  const navigate = useNavigate();
+  const { isConnected, walletAddress } = useWallet();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -38,6 +40,7 @@ const CreateDAO = () => {
     minTokens: 100,
     logo: null,
     logoPreview: "",
+    votePrice: 1,
   });
 
   // Handle text input changes
@@ -82,55 +85,44 @@ const CreateDAO = () => {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+
+    if (!isConnected) {
+      toast({
+        title: "Wallet Not Connected",
+        description: "Please connect your wallet to create a DAO",
+        variant: "destructive",
+      });
+      return;
+    }
 
     try {
-      // Get current user ID from authentication context or localStorage
-      const userId = localStorage.getItem("userId") || "temp-user-id";
-
-      const daoData = {
-        name: formData.name,
-        description: formData.description,
-        votingPeriod: formData.votingPeriod,
-        quorum: formData.quorum,
-        creator: userId,
-        // Add token information - you might need to adjust your backend to handle these
-        tokenName: formData.tokenName,
-        tokenSymbol: formData.tokenSymbol,
-        tokenSupply: formData.tokenSupply,
-        minTokens: formData.minTokens,
-      };
-
-      // Upload logo if exists
-      let logoUrl = null;
-      if (formData.logo) {
-        const formDataLogo = new FormData();
-        formDataLogo.append("logo", formData.logo);
-        // You would need to implement a file upload endpoint
-        // const uploadResponse = await axios.post(`${API_URL}/upload`, formDataLogo);
-        // logoUrl = uploadResponse.data.url;
-        // daoData.logoUrl = logoUrl;
-      }
-
-      // Create the DAO
-      const response = await createDAO(daoData);
-
-      toast({
-        title: "DAO Created Successfully",
-        description: `${formData.name} has been created on the Algorand blockchain.`,
+      const response = await fetch("/api/dao", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          description: formData.description,
+          manager: walletAddress,
+          votePrice: formData.votePrice || 1,
+        }),
       });
 
-      // Navigate to the DAO dashboard with the DAO ID from the response
-      navigate(`/dao/${response._id}`);
+      if (!response.ok) throw new Error("Failed to create DAO");
+
+      const dao = await response.json();
+      toast({
+        title: "Success",
+        description: "DAO created successfully!",
+      });
+      navigate(`/dao/${dao._id}`);
     } catch (error) {
-      console.error("Error creating DAO:", error);
       toast({
         title: "Error",
         description: "Failed to create DAO. Please try again.",
         variant: "destructive",
       });
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

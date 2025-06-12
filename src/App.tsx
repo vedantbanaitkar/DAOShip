@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -26,7 +25,10 @@ const App = () => (
           <Route path="/create-dao" element={<CreateDAO />} />
           <Route path="/dao/:id" element={<DAODashboard />} />
           <Route path="/dao/:id/create-proposal" element={<CreateProposal />} />
-          <Route path="/proposal/:id" element={<ProposalView />} />
+          <Route
+            path="/dao/:daoId/proposal/:proposalId"
+            element={<ProposalView />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

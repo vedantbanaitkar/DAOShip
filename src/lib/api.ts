@@ -40,7 +40,7 @@ export const createProposal = async (daoId: string, proposalData: any) => {
 };
 
 export const getProposal = async (daoId: string, proposalId: string) => {
-  const response = await api.get(`/dao/${daoId}/proposals/${proposalId}`);
+  const response = await api.get(`/proposal/${proposalId}`);
   return response.data;
 };
 

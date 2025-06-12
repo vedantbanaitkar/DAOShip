@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Loader2, Wallet, QrCode } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 interface WalletConnectModalProps {
   isOpen: boolean;
@@ -14,16 +15,20 @@ const WalletConnectModal = ({
   onConnect,
 }: WalletConnectModalProps) => {
   const [connecting, setConnecting] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const handleConnect = async (walletType: string) => {
     setConnecting(walletType);
 
     try {
-      // Simulate connection process
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      onConnect(walletType);
+      await onConnect(walletType);
     } catch (error) {
       console.error("Failed to connect wallet:", error);
+      toast({
+        title: "Connection Failed",
+        description: "Failed to connect wallet. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setConnecting(null);
     }

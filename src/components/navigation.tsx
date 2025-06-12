@@ -13,6 +13,12 @@ import {
   Sparkles,
 } from "lucide-react";
 import WalletConnectModal from "@/components/wallet-connect-modal";
+import {
+  connectWallet,
+  disconnectWallet,
+  getWalletAddress,
+} from "@/lib/wallet";
+import { formatWalletAddress } from "@/lib/utils";
 
 const Navigation = () => {
   const { toast } = useToast();
@@ -45,38 +51,66 @@ const Navigation = () => {
     setIsOpen(false);
   }, [location]);
 
-  // Mock wallet connection, in reality this would integrate with Algorand wallets
-  const handleWalletConnect = (walletType) => {
+  // Initialize wallet on component mount
+  useEffect(() => {
+    const initWallet = async () => {
+      const address = await getWalletAddress();
+      if (address) {
+        setWalletAddress(address);
+        setIsConnected(true);
+      }
+    };
+    initWallet();
+  }, []);
+
+  // Update wallet connection handler
+  const handleWalletConnect = async (walletType: string) => {
     setIsModalOpen(false);
 
-    // Show loading toast
-    toast({
-      title: "Connecting Wallet",
-      description: `Connecting to ${walletType}...`,
-    });
+    try {
+      toast({
+        title: "Connecting Wallet",
+        description: `Connecting to ${walletType}...`,
+      });
 
-    // Mock connecting wallet
-    setTimeout(() => {
-      const mockAddress = "ALGO12345...6789";
-      setWalletAddress(mockAddress);
+      const address = await connectWallet();
+      setWalletAddress(address);
       setIsConnected(true);
 
       toast({
         title: "Wallet Connected",
         description: `Successfully connected to ${walletType}`,
       });
-    }, 1000);
+    } catch (error) {
+      console.error("Failed to connect wallet:", error);
+      toast({
+        title: "Connection Failed",
+        description: "Failed to connect wallet. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const handleDisconnect = () => {
-    setIsConnected(false);
-    setWalletAddress("");
-    setIsProfileMenuOpen(false);
+  // Update disconnect handler
+  const handleDisconnect = async () => {
+    try {
+      await disconnectWallet();
+      setIsConnected(false);
+      setWalletAddress("");
+      setIsProfileMenuOpen(false);
 
-    toast({
-      title: "Wallet Disconnected",
-      description: "Your wallet has been disconnected",
-    });
+      toast({
+        title: "Wallet Disconnected",
+        description: "Your wallet has been disconnected",
+      });
+    } catch (error) {
+      console.error("Failed to disconnect wallet:", error);
+      toast({
+        title: "Disconnect Failed",
+        description: "Failed to disconnect wallet. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   // Navigation animations
@@ -130,7 +164,7 @@ const Navigation = () => {
   const navItems = [
     { name: "Home", path: "/" },
     { name: "Explore", path: "/explore" },
-    { name: "Create DAO", path: "/create" },
+    { name: "Create DAO", path: "/create-dao" },
   ];
 
   return (
@@ -209,7 +243,9 @@ const Navigation = () => {
                 className="flex items-center bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-lg transition-colors"
               >
                 <div className="h-2 w-2 rounded-full bg-green-400 mr-2 animate-pulse"></div>
-                <span className="mr-1">{walletAddress}</span>
+                <span className="mr-1 font-mono text-sm">
+                  {formatWalletAddress(walletAddress)}
+                </span>
                 <ChevronDown
                   className={cn(
                     "h-4 w-4 transition-transform",
